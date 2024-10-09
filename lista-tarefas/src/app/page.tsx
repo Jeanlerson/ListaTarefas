@@ -6,7 +6,7 @@ const Page = () => {
 
   const [itemInput, setItemInput] = useState('')
   const [list, setList] = useState<TodoItem[]>([
-    {label: 'Fazer trabalho escolar', checked: false},
+    {label: 'Fazer trabalho escolar', checked: true}
   ]);
 
   const handleAddButton = () => {
@@ -17,6 +17,18 @@ const Page = () => {
 
   const deleteItem = (index: number) => {
     setList(list.filter((item, key) => key !== index))
+  }
+
+  const toogleItem = (index: number) => {
+    let newList = [...list];
+    newList[index].checked = !newList[index].checked;
+    //for(let i in newList) {
+    //  if(index === parseInt(i)) {
+    //    newList[i].checked = !newList[i].checked
+    //  }
+    //}
+
+    setList(newList )
   }
 
   return (
@@ -39,7 +51,10 @@ const Page = () => {
 
       <ul className="w-full max-w-lg list-disc pl-5">
         {list.map((item, index) => (
-          <li key={index}>{item.label} - <button onClick={() => deleteItem(index)} className="hover:underline text-red-700 font-bold">[ deletar ]</button></li>
+          <li key={index} className="flex mb-2">
+            <input onClick={() => toogleItem(index)} type="checkbox" checked={item.checked} className="w-6 h-6 mr-3"/>
+            {item.label} - <button onClick={() => deleteItem(index)} className="hover:underline text-red-700 font-bold ml-1">[ deletar ]</button>
+          </li>
         ))}
       </ul>
     </div>
