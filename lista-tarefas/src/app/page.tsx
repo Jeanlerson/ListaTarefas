@@ -4,11 +4,17 @@ import { TodoItem } from "@/types/TodoItem";
 
 const Page = () => {
 
+  const [itemInput, setItemInput] = useState('')
   const [list, setList] = useState<TodoItem[]>([
     {label: 'Fazer trabalho escolar', checked: false},
     {label: 'Estudar', checked: true},
     {label: 'Fazer compras', checked: false}
   ]);
+
+  const handleAddButton = () => {
+    setList([...list, { label: itemInput, checked: false }])
+    setItemInput('')
+  }
 
   return (
     <div className="w-screen h-screen flex flex-col justify-center
@@ -20,10 +26,13 @@ const Page = () => {
           type="text"
           placeholder="O que deseja fazer?"
           className="felx-1 border border-black p-3 text-2xl text-black rounded-md mr-3"
+          value={itemInput}
+          onChange={e => setItemInput(e.target.value)}
         />
-
-        <button>Adicionar</button>
+        <button onClick={handleAddButton}>Adicionar</button>
       </div>
+
+      <p className="my-4">{list.length} itens na lista</p>
 
       <ul className="w-full max-w-lg list-disc pl-5">
         {list.map(item => (
