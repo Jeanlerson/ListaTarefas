@@ -6,29 +6,29 @@ const Page = () => {
 
   const [itemInput, setItemInput] = useState('')
   const [list, setList] = useState<TodoItem[]>([
-    {label: 'Fazer trabalho escolar', checked: true}
+    {id: 1, label: 'Fazer trabalho escolar', checked: true}
   ]);
 
   const handleAddButton = () => {
     if(itemInput.trim() !== '')
-    setList([...list, { label: itemInput, checked: false }])
+    setList([...list, { id: list.length + 1, label: itemInput, checked: false }])
     setItemInput('')
   }
 
-  const deleteItem = (index: number) => {
-    setList(list.filter((item, key) => key !== index))
+  const deleteItem = (id: number) => {
+    setList(list.filter((item) => item.id !== id))
   }
 
-  const toogleItem = (index: number) => {
+  const toogleItem = (id: number) => {
     let newList = [...list];
-    newList[index].checked = !newList[index].checked;
-    //for(let i in newList) {
-    //  if(index === parseInt(i)) {
-    //    newList[i].checked = !newList[i].checked
-    //  }
-    //}
+    //newList[index].checked = !newList[index].checked;
+    for(let i in newList) {
+      if(newList[i].id === id) {
+        newList[i].checked = !newList[i].checked
+      }
+    }
 
-    setList(newList )
+    setList(newList)
   }
 
   return (
@@ -50,10 +50,10 @@ const Page = () => {
       <p className="my-4">{list.length} itens na lista</p>
 
       <ul className="w-full max-w-lg list-disc pl-5">
-        {list.map((item, index) => (
-          <li key={index} className="flex mb-2">
-            <input onClick={() => toogleItem(index)} type="checkbox" checked={item.checked} className="w-6 h-6 mr-3"/>
-            {item.label} - <button onClick={() => deleteItem(index)} className="hover:underline text-red-700 font-bold ml-1">[ deletar ]</button>
+        {list.map((item) => (
+          <li key={item.id} className="flex mb-2">
+            <input onClick={() => toogleItem(item.id)} type="checkbox" checked={item.checked} className="w-6 h-6 mr-3"/>
+            {item.label} - <button onClick={() => deleteItem(item.id)} className="hover:underline text-red-700 font-bold ml-1">[ deletar ]</button>
           </li>
         ))}
       </ul>
